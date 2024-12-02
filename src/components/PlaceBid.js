@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const PlaceBid = () => {
   const [items, setItems] = useState([]);
   const [hoveredItemId, setHoveredItemId] = useState(null);
   const [selectedItemId, setSelectedItemId] = useState("");
   const [bidAmount, setBidAmount] = useState("");
+  const [bidderName, setBidderName] = useState(""); // New state for the bidder's name
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch saved items from localStorage
@@ -16,8 +19,8 @@ const PlaceBid = () => {
   }, []);
 
   const handlePlaceBid = () => {
-    if (!selectedItemId || !bidAmount) {
-      alert("Please select an item and enter your bid.");
+    if (!selectedItemId || !bidAmount || !bidderName) {
+      alert("Please select an item, enter your name, and bid amount.");
       return;
     }
 
@@ -32,7 +35,7 @@ const PlaceBid = () => {
           currentBid: parseFloat(bidAmount),
           bids: [
             ...item.bids,
-            { bidAmount: parseFloat(bidAmount), bidderId: Date.now() }, // Example bidder ID
+            { bidAmount: parseFloat(bidAmount), bidderName }, // Save bidder's name
           ],
         };
       }
@@ -44,7 +47,11 @@ const PlaceBid = () => {
 
     alert("Bid placed successfully!");
     setBidAmount("");
+    setBidderName(""); // Clear the name field
+    navigate("/home");
   };
+  localStorage.clear();
+
 
   return (
     <div style={{ maxWidth: "800px", margin: "50px auto", textAlign: "center" }}>
@@ -93,6 +100,13 @@ const PlaceBid = () => {
         )}
       </div>
       <input
+        type="text"
+        placeholder="Enter your name"
+        value={bidderName}
+        onChange={(e) => setBidderName(e.target.value)}
+        style={{ margin: "10px 0", padding: "10px", width: "100%" }}
+      />
+      <input
         type="number"
         placeholder="Enter your bid"
         value={bidAmount}
@@ -104,6 +118,7 @@ const PlaceBid = () => {
       </button>
     </div>
   );
+
 };
 
 export default PlaceBid;

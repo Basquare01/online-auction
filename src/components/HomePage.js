@@ -3,18 +3,18 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "./Header";
 // import PasswordReset from "./PasswordReset"
-import useIdleTimer from "./useIdleTimer";
+          // import useIdleTimer from "./useIdleTimer";
 
 const HomePage = () => {
   const navigate = useNavigate();
 
-  const handleTimeout = () => {
-    alert("You have been logged out due to inactivity OR Tab Chnage.");
-    localStorage.removeItem("loggedInUser");
-    navigate("/login");
-  };
+            // const handleTimeout = () => {
+            //   alert("You have been logged out due to inactivity OR Tab Chnage.");
+            //   localStorage.removeItem("loggedInUser");
+            //   navigate("/login");
+            // };
 
-  useIdleTimer(handleTimeout, 60000); // 1-minute timeout
+            // useIdleTimer(handleTimeout, 60000); // 1-minute timeout
 
 
   useEffect(() => {
@@ -24,9 +24,9 @@ const HomePage = () => {
     }
   }, [navigate]);
 
-  // const HomePage = () => {
     const [items, setItems] = useState([]);
     const [timeRemaining, setTimeRemaining] = useState({});
+
   
     useEffect(() => {
       const savedItems = JSON.parse(localStorage.getItem("items")) || [];
@@ -69,6 +69,9 @@ const HomePage = () => {
   
       return `${hours}h ${minutes}m ${seconds}s`;
     };
+
+    localStorage.clear();
+
   
 
   return (
@@ -181,13 +184,15 @@ const HomePage = () => {
             <ul style={{ listStyle: "none", padding: "0" }}>
               {item.bids.map((bid, index) => (
                 <li key={index} style={{ margin: "5px 0" }}>
-                  Username: <strong>{bid.username || "Unknown"}</strong> - Amount: <strong>${bid.bidAmount}</strong>
+                  Name: <strong>{bid.bidderName || "Unknown"}</strong> - Amount:{" "}
+                  <strong>${bid.bidAmount}</strong>
                 </li>
               ))}
             </ul>
           ) : (
             <p>No bids yet.</p>
           )}
+
 
           {item.isExpired && item.highestBid && (
             <div
@@ -200,8 +205,7 @@ const HomePage = () => {
                 color: "#155724",
               }}
             >
-              <strong>Winner:</strong> Username {item.highestBid.username || "Unknown"} with a bid of $
-              {item.highestBid.bidAmount}
+              <strong>Winner:</strong> {item.highestBid.bidderName} with a bid of ${item.highestBid.bidAmount}
               <span role="img" aria-label="Trophy" style={{ marginLeft: "10px" }}>
                 🏆
               </span>

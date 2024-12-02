@@ -46,7 +46,12 @@ const PostItem = () => {
     setStartingPrice("");
     setDuration("");
     setPhoto("");
+    localStorage.clear();
+
   };
+
+  localStorage.clear();
+
 
   return (
     <div style={{ maxWidth: "500px", margin: "50px auto", textAlign: "center" }}>

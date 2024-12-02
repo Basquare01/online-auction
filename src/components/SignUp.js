@@ -31,7 +31,10 @@ const SignUp = () => {
     alert("Sign-up successful!");
     setUserData({ username: "", email: "", password: "" });
     navigate("/login");
+    // localStorage.clear();
+
   };
+  // localStorage.clear();
 
   return (
     <div style={{ maxWidth: "400px", margin: "50px auto", textAlign: "center" }}>
